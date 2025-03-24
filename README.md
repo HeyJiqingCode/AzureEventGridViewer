@@ -28,35 +28,36 @@ A web application for viewing and monitoring Azure Event Grid events. This appli
 
 ### Running with Python
 
-1. Clone the repository
+1）Clone the repository
 ```bash
 git clone https://github.com/HeyJiqingCode/AzureEventGridViewer.git
 cd AzureEventGridViewer
 ```
 
-2. Install dependencies
+2）Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Start the application
+3）Start the application
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 80
 ```
 
 ### Running with Docker
 
-1. Build the Docker image
+1）Build the Docker image
 ```bash
 docker build -t azure-event-grid-viewer .
 ```
 
-2. Run the Docker container
+2）Run the Docker container
 ```bash
 docker run -p 80:80 azure-event-grid-viewer
 ```
 
-3. Access the application
+3）Access the application
+
 Open `http://localhost` in your browser to access the application interface
 
 
