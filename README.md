@@ -60,6 +60,17 @@ docker run -p 80:80 azure-event-grid-viewer
 
 Open `http://localhost` in your browser to access the application interface
 
+## Event Caching
+
+The application maintains an in-memory cache of events with the following characteristics:
+
+- Maximum of 100 most recent events are stored
+- Events are stored in memory only (not persisted to disk)
+- Oldest events are automatically removed when the limit is reached
+- Cache is cleared when:
+  - The number of events exceeds 100 (oldest events are removed)
+  - User clicks the "Clear Events" button
+  - Application restarts
 
 ## Testing
 
