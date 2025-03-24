@@ -57,11 +57,25 @@ function createEventElement(eventData) {
                 <span class="event-time">${eventTime}</span>
             </div>
             <div class="text-muted">${subject}</div>
-            <pre class="event-data mt-2">${JSON.stringify(eventData.data, null, 2)}</pre>
+            <button class="toggle-btn" onclick="toggleEventData(this)">显示详情 ▼</button>
+            <pre class="event-data mt-2 collapsed">${JSON.stringify(eventData, null, 2)}</pre>
         </div>
     `;
     
     return eventDiv;
+}
+
+function toggleEventData(button) {
+    const eventData = button.nextElementSibling;
+    const isCollapsed = eventData.classList.contains('collapsed');
+    
+    if (isCollapsed) {
+        eventData.classList.remove('collapsed');
+        button.textContent = '隐藏详情 ▲';
+    } else {
+        eventData.classList.add('collapsed');
+        button.textContent = '显示详情 ▼';
+    }
 }
 
 function clearEvents() {
