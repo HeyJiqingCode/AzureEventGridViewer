@@ -10,24 +10,28 @@ function connectWebSocket() {
     ws = new WebSocket(wsUrl);
     
     ws.onopen = () => {
-        connectionStatus.textContent = '已连接到服务器';
+        connectionStatus.textContent = 'Connected to server';
         connectionStatus.className = 'alert alert-success';
     };
 
     ws.onmessage = (event) => {
         const eventData = JSON.parse(event.data);
+        if (eventData.type === 'clear_events') {
+            eventsContainer.innerHTML = '';
+            return;
+        }
         addEventToDisplay(eventData);
     };
 
     ws.onclose = () => {
-        connectionStatus.textContent = '连接断开，正在重新连接...';
+        connectionStatus.textContent = 'Connection lost, reconnecting...';
         connectionStatus.className = 'alert alert-warning';
-        // 自动重连
+        // Auto reconnect
         setTimeout(connectWebSocket, 1000);
     };
 
     ws.onerror = () => {
-        connectionStatus.textContent = '连接错误';
+        connectionStatus.textContent = 'Connection error';
         connectionStatus.className = 'alert alert-danger';
     };
 }
@@ -36,7 +40,7 @@ function addEventToDisplay(eventData) {
     const eventElement = createEventElement(eventData);
     eventsContainer.insertBefore(eventElement, eventsContainer.firstChild);
     
-    // 限制显示的事件数量
+    // Limit the number of displayed events
     while (eventsContainer.children.length > maxEvents) {
         eventsContainer.removeChild(eventsContainer.lastChild);
     }
@@ -57,7 +61,7 @@ function createEventElement(eventData) {
                 <span class="event-time">${eventTime}</span>
             </div>
             <div class="text-muted">${subject}</div>
-            <button class="toggle-btn" onclick="toggleEventData(this)">显示详情 ▼</button>
+            <button class="toggle-btn" onclick="toggleEventData(this)">Show Details ▼</button>
             <pre class="event-data mt-2 collapsed">${JSON.stringify(eventData, null, 2)}</pre>
         </div>
     `;
@@ -71,16 +75,31 @@ function toggleEventData(button) {
     
     if (isCollapsed) {
         eventData.classList.remove('collapsed');
-        button.textContent = '隐藏详情 ▲';
+        button.textContent = 'Hide Details ▲';
     } else {
         eventData.classList.add('collapsed');
-        button.textContent = '显示详情 ▼';
+        button.textContent = 'Show Details ▼';
     }
 }
 
-function clearEvents() {
-    eventsContainer.innerHTML = '';
+async function clearEvents() {
+    try {
+        const response = await fetch('/api/events/clear', {
+            method: 'POST'
+        });
+        if (!response.ok) {
+            throw new Error('Failed to clear events');
+        }
+    } catch (error) {
+        console.error('Error clearing events:', error);
+        connectionStatus.textContent = 'Failed to clear events';
+        connectionStatus.className = 'alert alert-danger';
+        setTimeout(() => {
+            connectionStatus.textContent = 'Connected to server';
+            connectionStatus.className = 'alert alert-success';
+        }, 3000);
+    }
 }
 
-// 启动 WebSocket 连接
+// Start WebSocket connection
 connectWebSocket();

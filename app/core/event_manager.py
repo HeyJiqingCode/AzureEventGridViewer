@@ -12,19 +12,19 @@ class EventManager:
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
         self.active_connections.add(websocket)
-        # 发送现有事件历史
+        # Send existing event history
         await self.send_events_history(websocket)
 
     async def disconnect(self, websocket: WebSocket):
         self.active_connections.remove(websocket)
 
     async def broadcast_event(self, event: Dict[str, Any]):
-        # 保存事件
+        # Save event
         self.events.append(event)
         if len(self.events) > self.max_events:
             self.events.pop(0)
         
-        # 广播到所有连接
+        # Broadcast to all connections
         disconnected = set()
         for connection in self.active_connections:
             try:
@@ -32,7 +32,7 @@ class EventManager:
             except:
                 disconnected.add(connection)
         
-        # 清理断开的连接
+        # Clean up disconnected connections
         for conn in disconnected:
             await self.disconnect(conn)
 
@@ -51,3 +51,17 @@ class EventManager:
             except:
                 pass
         self.active_connections.clear()
+
+    async def clear_events(self):
+        self.events.clear()
+        # Notify all clients to clear events
+        disconnected = set()
+        for connection in self.active_connections:
+            try:
+                await connection.send_json({"type": "clear_events"})
+            except:
+                disconnected.add(connection)
+        
+        # Clean up disconnected connections
+        for conn in disconnected:
+            await self.disconnect(conn)

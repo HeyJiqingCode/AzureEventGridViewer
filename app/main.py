@@ -6,17 +6,17 @@ from app.core.event_manager import EventManager
 from app.api.routes import router
 import os
 
-# 获取当前文件所在目录的路径
+# Get the current directory path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 app = FastAPI(title="Azure Event Grid Viewer")
 app.mount("/static", StaticFiles(directory=os.path.join(current_dir, "static")), name="static")
 templates = Jinja2Templates(directory=os.path.join(current_dir, "templates"))
 
-# 初始化事件管理器
+# Initialize event manager
 event_manager = EventManager()
 
-# 包含路由
+# Include routes
 app.include_router(router)
 
 @app.get("/", response_class=HTMLResponse)
@@ -25,10 +25,10 @@ async def root(request: Request):
 
 @app.on_event("startup")
 async def startup_event():
-    """应用启动时的初始化"""
+    """Application initialization on startup"""
     pass
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    """应用关闭时的清理工作"""
+    """Cleanup work on application shutdown"""
     await event_manager.close()
