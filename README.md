@@ -86,7 +86,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 80
 
 1）Pull the Docker image
 ```bash
-docker pull heyjiqing.azurecr.io/eventgridviewer:0.1.4 .
+docker pull heyjiqing.azurecr.io/eventgridviewer:0.1.4
 ```
 
 2）Run the Docker container
