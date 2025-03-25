@@ -91,7 +91,7 @@ docker pull heyjiqing.azurecr.io/eventgridviewer:0.1.4 .
 
 2）Run the Docker container
 ```bash
-docker run -p 80:80 heyjiqing.azurecr.io/eventgridviewer:0.1.4
+docker run -itd -p 80:80 heyjiqing.azurecr.io/eventgridviewer:0.1.4
 ```
 
 3）Access the application
