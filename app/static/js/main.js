@@ -26,7 +26,7 @@ function connectWebSocket() {
     ws.onclose = () => {
         connectionStatus.textContent = 'Connection lost, reconnecting...';
         connectionStatus.className = 'alert alert-warning';
-        // Auto reconnect
+        // 自动重连
         setTimeout(connectWebSocket, 1000);
     };
 
@@ -40,7 +40,7 @@ function addEventToDisplay(eventData) {
     const eventElement = createEventElement(eventData);
     eventsContainer.insertBefore(eventElement, eventsContainer.firstChild);
     
-    // Limit the number of displayed events
+    // 限制显示事件的数量
     while (eventsContainer.children.length > maxEvents) {
         eventsContainer.removeChild(eventsContainer.lastChild);
     }
@@ -61,7 +61,7 @@ function createEventElement(eventData) {
                 <span class="event-time">${eventTime}</span>
             </div>
             <div class="text-muted">${subject}</div>
-            <button class="toggle-btn" onclick="toggleEventData(this)">Show Details ▼</button>
+            <button class="toggle-btn" onclick="toggleEventData(this)">显示详情 ▼</button>
             <pre class="event-data mt-2 collapsed">${JSON.stringify(eventData, null, 2)}</pre>
         </div>
     `;
@@ -75,10 +75,10 @@ function toggleEventData(button) {
     
     if (isCollapsed) {
         eventData.classList.remove('collapsed');
-        button.textContent = 'Hide Details ▲';
+        button.textContent = '隐藏详情 ▲';
     } else {
         eventData.classList.add('collapsed');
-        button.textContent = 'Show Details ▼';
+        button.textContent = '显示详情 ▼';
     }
 }
 
@@ -91,15 +91,15 @@ async function clearEvents() {
             throw new Error('Failed to clear events');
         }
     } catch (error) {
-        console.error('Error clearing events:', error);
-        connectionStatus.textContent = 'Failed to clear events';
+        console.error('清除事件时出错:', error);
+        connectionStatus.textContent = '清除事件失败';
         connectionStatus.className = 'alert alert-danger';
         setTimeout(() => {
-            connectionStatus.textContent = 'Connected to server';
+            connectionStatus.textContent = '已连接到服务器';
             connectionStatus.className = 'alert alert-success';
         }, 3000);
     }
 }
 
-// Start WebSocket connection
+// 启动WebSocket连接
 connectWebSocket();

@@ -39,7 +39,7 @@ async def test_max_events_limit(event_manager):
     for i in range(event_manager.max_events + 10):
         await event_manager.broadcast_event({"id": str(i)})
     assert len(event_manager.events) == event_manager.max_events
-    assert event_manager.events[0]["id"] == "10"  # The oldest event should be removed
+    assert event_manager.events[0]["id"] == "10"  # 最旧的事件应该被移除
 
 @pytest.mark.asyncio
 async def test_clear_events(event_manager, mock_websocket):
