@@ -10,7 +10,7 @@ A web application for viewing and monitoring Azure Event Grid events. This appli
 - Responsive web interface for desktop and mobile devices
 - WebSocket-based real-time updates without page refresh
 
-## Stack
+## Technology Stack
 
 - FastAPI - High-performance Python web framework
 - Uvicorn - ASGI server
@@ -30,6 +30,32 @@ The application maintains an in-memory cache of events with the following charac
   - The number of events exceeds 100 (oldest events are removed)
   - User clicks the "Clear Events" button
   - Application restarts
+
+## Endpoints
+
+### Health Check
+
+Returns the health status of the application.
+
+```http
+GET /api/health
+```
+
+### Receive Events
+
+Handles incoming Event Grid events. Supports both single events and event arrays.
+
+```
+POST /api/events
+```
+
+### Clear Events
+
+Clears all stored events from the viewer.
+
+```
+POST /api/events/clear
+```
 
 ## Quick Start
 
@@ -58,30 +84,45 @@ uvicorn app.main:app --host 0.0.0.0 --port 80
 
 ### Running with Docker
 
-1）Build the Docker image
+1）Pull the Docker image
 ```bash
-docker build -t azure-event-grid-viewer .
+docker pull heyjiqing.azurecr.io/eventgridviewer:0.1.4 .
 ```
 
 2）Run the Docker container
 ```bash
-docker run -p 80:80 azure-event-grid-viewer
+docker run -p 80:80 heyjiqing.azurecr.io/eventgridviewer:0.1.4
 ```
 
 3）Access the application
 
 Open `http://localhost` in your browser to access the application interface
 
-## Testing
+### Running with Azure App Service
 
-Run the test suite:
+1）Type **app services** in the search. Under **Services**, select **App Services**.
 
-```bash
-pytest
-```
+2）In the **App Services** page, select **Create** > **Web App**.
 
-With coverage report:
+3）In the **Basics** tab, under **Project details**, select the correct subscription. Select **Create new** resource group. Type *myResourceGroup* for the name.
 
-```bash
-pytest --cov=app tests/
-```
+4）Under **Instance details**:
+
+- Enter a globally unique name for your web app.
+- Select **Container**.
+- For the Operating System, select **Linux**.
+- Select a **Region** that you want to serve your app from.
+
+5）Under **App Service Plan**, select **Create new** App Service Plan. Enter *myAppServicePlan* for the name. To change pricing plans, select **Explore pricing plans**, in the **Dev/Test** section, select **Basic B1**. Select **Select**.
+
+6）At the top of the page, select the **Container** tab.
+
+7）In the **Container** tab, for **Image Source**, select **Other container registries**. Under **Other container registries** options, set the following values:
+
+- Access Type: `Public`
+- Registry server URL: `https://heyjiqing.azurecr.io`.
+- Image and tag: `eventgridviewer:0.1.4`
+
+8）Select **Review + create** at the bottom of the page.
+
+9）After validation runs, select **Create**.
