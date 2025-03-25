@@ -45,7 +45,7 @@ GET /api/health
 
 Handles incoming Event Grid events. Supports both single events and event arrays.
 
-```
+```http
 POST /api/events
 ```
 
@@ -53,7 +53,7 @@ POST /api/events
 
 Clears all stored events from the viewer.
 
-```
+```http
 POST /api/events/clear
 ```
 
