@@ -40,3 +40,26 @@ async def test_max_events_limit(event_manager):
         await event_manager.broadcast_event({"id": str(i)})
     assert len(event_manager.events) == event_manager.max_events
     assert event_manager.events[0]["id"] == "10"  # The oldest event should be removed
+
+@pytest.mark.asyncio
+async def test_clear_events(event_manager, mock_websocket):
+    """测试清除所有事件的功能"""
+    # 添加一些测试事件
+    test_events = [{"id": f"test-{i}"} for i in range(5)]
+    for event in test_events:
+        await event_manager.broadcast_event(event)
+    
+    # 确认事件已被添加
+    assert len(event_manager.events) == 5
+    
+    # 添加一个连接
+    await event_manager.connect(mock_websocket)
+    
+    # 清除所有事件
+    await event_manager.clear_events()
+    
+    # 验证事件已被清除
+    assert len(event_manager.events) == 0
+    
+    # 验证通知已发送给客户端
+    mock_websocket.send_json.assert_called_with({"type": "clear_events"})

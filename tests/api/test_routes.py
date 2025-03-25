@@ -47,3 +47,8 @@ def test_receive_multiple_events(client):
     ]
     response = client.post("/api/events", json=events)
     assert response.status_code == 200
+
+def test_clear_events(client):
+    """测试清除所有事件的API接口"""
+    response = client.post("/api/events/clear")
+    assert response.status_code == 200
