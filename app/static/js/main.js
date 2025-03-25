@@ -61,7 +61,7 @@ function createEventElement(eventData) {
                 <span class="event-time">${eventTime}</span>
             </div>
             <div class="text-muted">${subject}</div>
-            <button class="toggle-btn" onclick="toggleEventData(this)">显示详情 ▼</button>
+            <button class="toggle-btn" onclick="toggleEventData(this)">Show Details ▼</button>
             <pre class="event-data mt-2 collapsed">${JSON.stringify(eventData, null, 2)}</pre>
         </div>
     `;
@@ -75,10 +75,10 @@ function toggleEventData(button) {
     
     if (isCollapsed) {
         eventData.classList.remove('collapsed');
-        button.textContent = '隐藏详情 ▲';
+        button.textContent = 'Hide Details ▲';
     } else {
         eventData.classList.add('collapsed');
-        button.textContent = '显示详情 ▼';
+        button.textContent = 'Show Details ▼';
     }
 }
 
@@ -91,11 +91,11 @@ async function clearEvents() {
             throw new Error('Failed to clear events');
         }
     } catch (error) {
-        console.error('清除事件时出错:', error);
-        connectionStatus.textContent = '清除事件失败';
+        console.error('Error clearing events:', error);
+        connectionStatus.textContent = 'Failed to clear events';
         connectionStatus.className = 'alert alert-danger';
         setTimeout(() => {
-            connectionStatus.textContent = '已连接到服务器';
+            connectionStatus.textContent = 'Connected to server';
             connectionStatus.className = 'alert alert-success';
         }, 3000);
     }
