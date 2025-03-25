@@ -2,17 +2,17 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy dependencies file
+# 复制依赖文件
 COPY requirements.txt .
 
-# Install dependencies
+# 安装依赖
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# 复制应用代码
 COPY app/ ./app/
 
-# Expose port
+# 暴露端口
 EXPOSE 80
 
-# Start command
+# 启动命令
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
