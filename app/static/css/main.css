@@ -1,0 +1,77 @@
+.event-card {
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #0d6efd;
+    background-color: #fff;
+    max-width: 100%;
+}
+
+.event-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.event-time {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.event-data {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 0;
+    overflow-x: auto;
+    font-family: monospace;
+    white-space: pre-wrap;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    max-width: 100%;
+}
+
+.event-data.collapsed {
+    display: none;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #0d6efd;
+    padding: 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.toggle-btn:hover {
+    text-decoration: underline;
+}
+
+.event-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#connection-status {
+    position: sticky;
+    top: 1rem;
+    z-index: 1000;
+    margin-bottom: 1rem;
+    max-width: 100%;
+}
+
+#connection-status.connected {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+#connection-status.disconnected {
+    background-color: #f8d7da;
+    color: #842029;
+}

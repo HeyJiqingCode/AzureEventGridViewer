@@ -1,0 +1,46 @@
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE related files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Log files
+*.log
+
+# Local configuration files
+config.local.py
+
+# Azure related files
+.azure/
+*.publishsettings
+publish_profiles/
+
+# Docker related
+*.env.docker
+docker-compose.override.yml
+
+# Others
+.directory
+Thumbs.db
